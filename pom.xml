@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <!-- Update spring-boot.version property below too, so build info is accurate. -->
+    <version>3.2.1</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.pcalouche.poms</groupId>
+  <artifactId>calouche-company-pom</artifactId>
+  <!-- Update base-pom.version property below too, so build info is accurate. -->
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Calouche Company POM</name>
+  <description>A Example Parent POM for Spring Boot applications and libraries</description>
+  <url>https://github.com/pcalouche/calouche-company-pom</url>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub pcalouche Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/pcalouche/calouche-company-pom</url>
+    </repository>
+  </distributionManagement>
+
+  <properties>
+    <!-- Grouped by category then alphabetized by property name -->
+
+    <!-- General properties -->
+    <!-- Setting java.version here also sets maven compiler source and targets properties via
+    spring boot parent config -->
+    <java.version>17</java.version>
+    <!-- Used to generate build information in spring-boot-maven-plugin -->
+    <spring-boot.version>3.2.1</spring-boot.version>
+    <!-- Used to generate build information in spring-boot-maven-plugin -->
+    <base-pom.version>1.0.1</base-pom.version>
+
+    <!--
+      Use alternate versions of Spring Boot managed Maven Plugins managed in the Spring Boot
+      parent POM's pluginManagement.
+    -->
+    <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
+    <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+    <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+    <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+    <maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version>3.2.3</maven-failsafe-plugin.version>
+    <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+    <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+    <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
+
+    <!-- Third party test dependency versions. Spring Boot Parent POM manages several already. -->
+    <testcontainers.version>1.19.3</testcontainers.version>
+
+    <!-- Third party plugin versions. Spring Boot Parent POM manages several already. -->
+    <exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
+    <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+    <git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers-bom</artifactId>
+        <version>${testcontainers.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.projectlombok</groupId>-->
+<!--        <artifactId>lombok</artifactId>-->
+<!--        <version>${lombok.version}</version>-->
+<!--        <scope>provided</scope>-->
+<!--      </dependency>-->
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <!--
+      Plugin management will not apply the plugin to a child POM. Rather it serves as a place to
+      consolidate common plugin configuration. A child POM will inherit this configuration if it
+      includes the plugin in its <build><plugin> section.
+    -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+          <configuration>
+            <!--
+              Prevents multimodule projects from deploying modules to the repository as they complete
+              which can lead to issues if a module fails in the process.
+            -->
+            <deployAtEnd>true</deployAtEnd>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>default-enforcement</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>[3.8.8,)</version>
+                  </requireMavenVersion>
+                  <dependencyConvergence/>
+                  <banDuplicatePomDependencyVersions/>
+                  <requireUpperBoundDeps/>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven-install-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${maven-shade-plugin.version}</version>
+        </plugin>
+        <!-- Attach sources for easy reference in IDEs -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${exec-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${flatten-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>${versions-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>jacoco-prepare-agent</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>jacoco-report</id>
+              <goals>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.liquibase</groupId>
+          <artifactId>liquibase-maven-plugin</artifactId>
+          <version>${liquibase.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <!--
+              <annotationProcessorPaths>
+                Do not add processors here without consulting with Catalyst, as it will disable
+                Maven detecting them from the classpath which will break a bunch Spring stuff that
+                would need to be tracked down and updated.
+              </annotationProcessorPaths>
+            -->
+            <!--
+                Spring's Boot Maven plugin will include provided dependencies in the final jar
+                which is not the behavior when a regular jar is created. This is because a Spring
+                Boot Jar is built in a specialized way. In most cases we don't want these even if
+                they may not cause any problems See https://docs.spring.io/spring-boot/docs/2.7.8/maven-plugin/reference/htmlsingle/#packaging.examples.exclude-dependency
+                for more details.
+            -->
+            <excludes>
+              <exclude>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+              </exclude>
+              <exclude>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+              </exclude>
+              <exclude>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+              </exclude>
+              <exclude>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure-processor</artifactId>
+              </exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>build-info</goal>
+              </goals>
+              <configuration>
+                <additionalProperties>
+                  <spring-boot-version>${spring-boot.version}</spring-boot-version>
+                  <base-pom-version>${base-pom.version}</base-pom-version>
+                  <spring-enzymes-version>${spring-enzymes.version}</spring-enzymes-version>
+                </additionalProperties>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <!-- These are applied to any child POM. This configuration can be overridden by the child POM or disabled with a flag. -->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>no-snapshots-enforcement</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>${maven-enforcer-plugin.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <requireReleaseDeps/>
+                    <requireReleaseVersion/>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
