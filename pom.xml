@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -62,6 +62,8 @@
     <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
     <git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+    <spotless-maven-plugin.version>2.41.1</spotless-maven-plugin.version>
+    <spring-javaformat-maven-plugin.version>0.0.40</spring-javaformat-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -73,12 +75,6 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-<!--      <dependency>-->
-<!--        <groupId>org.projectlombok</groupId>-->
-<!--        <artifactId>lombok</artifactId>-->
-<!--        <version>${lombok.version}</version>-->
-<!--        <scope>provided</scope>-->
-<!--      </dependency>-->
     </dependencies>
   </dependencyManagement>
 
@@ -90,6 +86,89 @@
     -->
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <configuration>
+            <java>
+              <importOrder/>
+              <removeUnusedImports/>
+              <toggleOffOn>
+                <off>@formatter:off</off>
+                <on>@formatter:on</on>
+              </toggleOffOn>
+            </java>
+            <pom>
+              <includes>
+                <include>pom.xml</include>
+                <include>*/pom.xml</include>
+              </includes>
+              <sortPom>
+                <nrOfIndentSpace>2</nrOfIndentSpace>
+                <indentSchemaLocation>true</indentSchemaLocation>
+                <expandEmptyElements>false</expandEmptyElements>
+                <sortProperties>false</sortProperties>
+                <sortDependencies>scope,groupId,artifactId</sortDependencies>
+                <sortDependencyExclusions>groupId,artifactId</sortDependencyExclusions>
+                <sortPlugins>groupId,artifactId</sortPlugins>
+              </sortPom>
+              <toggleOffOn>
+                <off>@formatter:off</off>
+                <on>@formatter:on</on>
+              </toggleOffOn>
+            </pom>
+            <markdown>
+              <includes>
+                <include>**/*.md</include>
+              </includes>
+              <flexmark/>
+              <toggleOffOn>
+                <off>@formatter:off</off>
+                <on>@formatter:on</on>
+              </toggleOffOn>
+            </markdown>
+            <formats>
+              <format>
+                <includes>
+                  <include>.gitignore</include>
+                </includes>
+                <trimTrailingWhitespace/>
+                <endWithNewline/>
+                <indent>
+                  <tabs>true</tabs>
+                  <spacesPerTab>2</spacesPerTab>
+                </indent>
+                <toggleOffOn>
+                  <off>@formatter:off</off>
+                  <on>@formatter:on</on>
+                </toggleOffOn>
+              </format>
+            </formats>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <phase>compile</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>io.spring.javaformat</groupId>
+          <artifactId>spring-javaformat-maven-plugin</artifactId>
+          <version>${spring-javaformat-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+              <phase>validate</phase>
+              <inherited>true</inherited>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
