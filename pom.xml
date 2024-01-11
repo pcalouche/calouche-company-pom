@@ -63,7 +63,7 @@
     <git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
     <spotless-maven-plugin.version>2.41.1</spotless-maven-plugin.version>
-    <spring-javaformat-maven-plugin.version>0.0.40</spring-javaformat-maven-plugin.version>
+    <spring-javaformat-maven-plugin.version>0.0.41</spring-javaformat-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
