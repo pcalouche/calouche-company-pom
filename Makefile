@@ -10,3 +10,7 @@ mvn-verify: format
 .PHONY: mvn-install
 mvn-install: format
 	mvn clean install
+
+.PHONY: mvn-deploy
+mvn-deploy: format
+	mvn clean deploy
