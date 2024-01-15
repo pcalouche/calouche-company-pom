@@ -55,6 +55,7 @@
     <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
 
     <!-- Third party test dependency versions. Spring Boot Parent POM manages several already. -->
+    <apache-poi.version>5.2.5</apache-poi.version>
     <testcontainers.version>1.19.3</testcontainers.version>
 
     <!-- Third party plugin versions. Spring Boot Parent POM manages several already. -->
@@ -75,8 +76,23 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>${apache-poi.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/*</url>
+    </repository>
+  </repositories>
 
   <build>
     <!--
