@@ -12,7 +12,6 @@ permissions:
 jobs:
   maven-verify:
     runs-on: ubuntu-latest
-    name: Maven Verify
     steps:
       - name: Checkout
         uses: actions/checkout@v4
