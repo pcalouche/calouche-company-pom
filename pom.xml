@@ -56,7 +56,7 @@
 
     <!-- Third party test dependency versions. Spring Boot Parent POM manages several already. -->
     <apache-poi.version>5.2.5</apache-poi.version>
-    <testcontainers.version>1.19.4</testcontainers.version>
+    <testcontainers.version>1.19.5</testcontainers.version>
 
     <!-- Third party plugin versions. Spring Boot Parent POM manages several already. -->
     <exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
