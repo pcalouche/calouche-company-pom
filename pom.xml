@@ -52,7 +52,7 @@
     <maven-failsafe-plugin.version>3.3.0</maven-failsafe-plugin.version>
     <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-    <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
+    <versions-maven-plugin.version>2.17.0</versions-maven-plugin.version>
 
     <!-- Third party test dependency versions. Spring Boot Parent POM manages several already. -->
     <apache-poi.version>5.2.5</apache-poi.version>
